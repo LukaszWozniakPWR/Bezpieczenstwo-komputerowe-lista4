@@ -10,6 +10,7 @@ import (
 var userList = []User{
 	User{"jankowalski", "jankowalski1"},
 	User{"tomasznowak", "tomasznowak1"},
+	User{"adwersarz", "adwersarz1"},
 }
 
 func main() {
