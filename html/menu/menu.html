@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+
+<h1>{{printf "Hello %s!" .}}</h1>
+
+
+<form action="/transaction" method="get">
+    <input type="submit" value="Zrób przelew">
+</form>
+<br>
+
+<form action="/transactions" method="get">
+    <input type="submit" value="Moje przelewy">
+</form>
+<br>
+
+<form action="/logout" method="post">
+    <input type="submit" value="Wyloguj">
+</form>
+
+</body>
+</html>

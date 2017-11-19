@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Potwierdzenie transakcji</title>
+</head>
+<body>
+
+<h1>Czy na pewno chcesz dokonać transakcji?</h1><br>
+<h3>{{printf "Od %s!" .Sender}}</h3>
+<h3>{{printf "Do %s!" .Receiver}}</h3>
+<h3>{{printf "Kwota %d!" .Amount}}</h3>
+
+<form action="/confirmation" method="post">
+    <input type="submit" value="Wykonaj przelew definitywnie ostatecznie">
+</form>
+
+</body>
+</html>

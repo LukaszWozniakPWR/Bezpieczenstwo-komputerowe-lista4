@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Twoje transakcje</title>
+</head>
+<body>
+
+<h1>Twoje transakcje!</h1>
+
+{{range $index, $element := .}}
+{{printf "Kiedy: %s, Kto: %s, Komu: %s, Ile: %d" .TransactionTime .Sender .Receiver .Amount}}
+<br>
+{{end}}
+
+<form action="/menu" method="get">
+    <input type="submit" value="Do menu">
+</form>
+
+</body>
+</html>
