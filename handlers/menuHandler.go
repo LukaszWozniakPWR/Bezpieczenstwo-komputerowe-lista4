@@ -5,20 +5,14 @@ import (
 )
 
 func MenuHandler(responseWriter http.ResponseWriter, request *http.Request) {
-	username := getUserName(request)
-	if username != "" {
-		executeTemplate(menuTemplate, responseWriter, username)
+	user := getLoggedUserFromCookies(request)
+	if user != nil {
+		if user.Info.IsAdmin {
+			executeTemplate(menuAdminTemplate, responseWriter, user.Info)
+		} else {
+			executeTemplate(menuNoAdminTemplate, responseWriter, user.Info)
+		}
 	} else {
 		displayNotLoggedError(responseWriter)
 	}
-}
-
-func getUserName(request *http.Request) (userName string) {
-	if cookie, err := request.Cookie("session"); err == nil {
-		cookieValue := make(map[string]string)
-		if err = cookieHandler.Decode("session", cookie.Value, &cookieValue); err == nil {
-			userName = cookieValue["name"]
-		}
-	}
-	return userName
 }

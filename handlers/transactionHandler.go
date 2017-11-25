@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"log"
 	"strconv"
-	."../transactions"
+	"../database"
 )
 
 func TransactionHandler(responseWriter http.ResponseWriter, request *http.Request) {
@@ -19,8 +19,8 @@ func TransactionHandler(responseWriter http.ResponseWriter, request *http.Reques
 }
 
 func displayTransactionPage(responseWriter http.ResponseWriter, request *http.Request) {
-	username := getUsernameFromCookies(request)
-	if username != "" {
+	user := getLoggedUserFromCookies(request)
+	if user != nil {
 		executeTemplate(transactionTemplate, responseWriter, nil)
 	} else {
 		displayNotLoggedError(responseWriter)
@@ -28,20 +28,24 @@ func displayTransactionPage(responseWriter http.ResponseWriter, request *http.Re
 }
 
 func processTransaction(responseWriter http.ResponseWriter, request *http.Request) {
-	sender := getUsernameFromCookies(request)
-	receiver := request.PostFormValue("receiver")
+	sender := getLoggedUserFromCookies(request)
+	receiverAccountNumber := request.PostFormValue("receiverAccountNumber")
 	amount, err := strconv.Atoi(request.PostFormValue("amount"))
 
-	if sender == "" {
+	if sender == nil {
 		displayNotLoggedError(responseWriter)
-	} else if !isUsernameInDatabase(receiver) {
-		displayWrongReceiver(responseWriter)
-	} else if amount <= 0 || err != nil {
+	} else if err != nil {
 		displayWrongAmount(responseWriter)
 	} else {
-		transaction := Transaction{"", sender, receiver, amount}
-		prepareTransaction(transaction)
-		http.Redirect(responseWriter, request, "/confirmation", http.StatusFound)
+		transaction := database.Transaction{"", sender.Info.AccountNumber, receiverAccountNumber, amount, false}
+		err = database.IsTransactionCorrect(transaction)
+		if err != nil {
+			displayErrorMessage(responseWriter, err)
+		} else {
+			clearSession(responseWriter)
+			setSession(sender, &transaction, responseWriter)
+			http.Redirect(responseWriter, request, "/confirmation", http.StatusFound)
+		}
 	}
 }
 

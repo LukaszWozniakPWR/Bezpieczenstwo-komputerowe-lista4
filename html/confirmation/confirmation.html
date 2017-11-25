@@ -7,8 +7,8 @@
 <body>
 
 <h1>Czy na pewno chcesz dokonać transakcji?</h1><br>
-<h3>{{printf "Od %s!" .Sender}}</h3>
-<h3>{{printf "Do %s!" .Receiver}}</h3>
+<h3>{{printf "Od %s!" .SenderAccountNumber}}</h3>
+<h3>{{printf "Do %s!" .ReceiverAccountNumber}}</h3>
 <h3>{{printf "Kwota %d!" .Amount}}</h3>
 
 <form action="/confirmation" method="post">

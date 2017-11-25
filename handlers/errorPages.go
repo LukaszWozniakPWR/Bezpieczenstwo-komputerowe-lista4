@@ -20,3 +20,7 @@ func displayWrongAmount(responseWriter http.ResponseWriter) {
 func displayNotPreparedTransaction(responseWriter http.ResponseWriter) {
 	fmt.Fprintf(responseWriter, "Nie znaleziono transakcji \n")
 }
+
+func displayErrorMessage(responseWriter http.ResponseWriter, err error) {
+	fmt.Fprintf(responseWriter, "%s \n", err.Error())
+}

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"log"
 	"./handlers"
+	"./database"
 )
 
 const LOGIN_ENDPOINT = "/login"
@@ -15,6 +16,8 @@ const CONFIRMATION_ENDPOINT = "/confirmation"
 const PORT = ":9090"
 
 func main() {
+	database.Initialize()
+	http.HandleFunc("/", handlers.MainHandler)
 	http.HandleFunc(LOGIN_ENDPOINT, handlers.LoginHandler)
 	http.HandleFunc(MENU_ENDPOINT, handlers.MenuHandler)
 	http.HandleFunc(LOGOUT_ENDPOINT, handlers.LogoutHandler)

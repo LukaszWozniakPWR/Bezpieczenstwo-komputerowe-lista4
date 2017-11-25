@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 	"log"
+	"../database"
 )
 
 func ConfirmationHandler(responseWriter http.ResponseWriter, request *http.Request) {
@@ -17,29 +18,29 @@ func ConfirmationHandler(responseWriter http.ResponseWriter, request *http.Reque
 }
 
 func displayConfirmationPage(responseWriter http.ResponseWriter, request *http.Request) {
-	username := getUsernameFromCookies(request)
-	if username == "" {
+	user := getLoggedUserFromCookies(request)
+	if user == nil {
 		displayNotLoggedError(responseWriter)
 	} else {
-		transaction, err := getPreparedTransactionFor(username)
-		if err != nil {
+		transaction := getTransactionFromCookies(request)
+		if transaction == nil {
 			displayNotPreparedTransaction(responseWriter)
 		} else {
-			executeTemplate(confirmationTemplate, responseWriter, transaction)
+			executeTemplate(confirmationTemplate, responseWriter, *transaction)
 		}
 	}
 }
 
 func processTransactionConfirmed(responseWriter http.ResponseWriter, request *http.Request) {
-	username := getUsernameFromCookies(request)
-	if username == "" {
+	user := getLoggedUserFromCookies(request)
+	if user == nil {
 		displayNotLoggedError(responseWriter)
 	} else {
-		transaction, err := getPreparedTransactionFor(username)
-		if err != nil {
+		transaction := getTransactionFromCookies(request)
+		if transaction == nil {
 			displayNotPreparedTransaction(responseWriter)
 		} else {
-			makeTransaction(transaction)
+			database.MakeTransaction(*transaction)
 			http.Redirect(responseWriter, request, "/transactions", http.StatusFound)
 		}
 	}

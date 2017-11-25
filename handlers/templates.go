@@ -9,19 +9,24 @@ import (
 const loginHtmlPath = "html/login/"
 const loginTemplate = "login.html"
 const menuHtmlPath = "html/menu/"
-const menuTemplate = "menu.html"
+const menuNoAdminTemplate = "menunoadmin.html"
+const menuAdminTemplate = "menuadmin.html"
 const transactionHtmlPath = "html/transaction/"
 const transactionTemplate = "transaction.html"
 const confirmationHtmlPath = "html/confirmation/"
 const confirmationTemplate = "confirmation.html"
 const transactionsHtmlPath = "html/transactions/"
 const transactionsTemplate = "transactions.html"
+const mainHtmlPath = "html/main/"
+const mainTemplate = "main.html"
 
 var templates = template.Must(template.ParseFiles(
 	loginHtmlPath+loginTemplate,
-	menuHtmlPath+menuTemplate,
+	menuHtmlPath+menuNoAdminTemplate,
+	menuHtmlPath+menuAdminTemplate,
 	transactionHtmlPath+transactionTemplate,
 	confirmationHtmlPath+confirmationTemplate,
+	mainHtmlPath+mainTemplate,
 	transactionsHtmlPath+transactionsTemplate))
 
 func executeTemplate(template string, responseWriter http.ResponseWriter, data interface{}) {

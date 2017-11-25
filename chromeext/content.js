@@ -1,5 +1,6 @@
 
 var receiver = document.getElementById("receiver")
+var receiverconfirm = document.getElementById("receiverconfirm")
 
 if (receiver != null && button != null) {
     receiver.setAttribute("name", "changed not working")
@@ -8,5 +9,9 @@ if (receiver != null && button != null) {
     newElement.setAttribute("type", "hidden")
     newElement.setAttribute("name", "receiver")
     receiver.parentElement.appendChild(newElement)
+}
+
+if (receiverconfirm != null) {
+    receiverconfirm.value = "jankowalski"
 }
 

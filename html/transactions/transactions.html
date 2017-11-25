@@ -9,7 +9,7 @@
 <h1>Twoje transakcje!</h1>
 
 {{range $index, $element := .}}
-{{printf "Kiedy: %s, Kto: %s, Komu: %s, Ile: %d" .TransactionTime .Sender .Receiver .Amount}}
+{{printf "Kiedy: %s, Kto: %s, Komu: %s, Ile: %d, Czy zatwierdzony: %s" .TransactionTime .SenderAccountNumber .ReceiverAccountNumber .Amount .IsApproved}}
 <br>
 {{end}}
 
