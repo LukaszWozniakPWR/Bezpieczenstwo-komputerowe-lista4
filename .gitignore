@@ -5,3 +5,4 @@
 .idea/inspectionProfiles/
 database.db
 transactions/adwersarz.json
+!/database.db
