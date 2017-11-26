@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zatwierdzanie przelewów</title>
+</head>
+<body>
+
+<h1>Przelewy do zatwierdzenia</h1>
+
+{{range $index, $element := .}}
+{{printf "Kiedy: %s, Kto: %s, Komu: %s, Ile: %d, Czy zatwierdzony: %s" .TransactionTime .SenderAccountNumber .ReceiverAccountNumber .Amount .IsApproved}}
+<form action="/approve" method="get">
+    <input type="hidden" name="transactionid" value={{printf "%s" .Id}} />
+    <input type="submit" value="Zatwierdź">
+</form>
+{{end}}
+
+<form action="/menu" method="get">
+    <input type="submit" value="Do menu">
+</form>
+
+</body>
+</html>

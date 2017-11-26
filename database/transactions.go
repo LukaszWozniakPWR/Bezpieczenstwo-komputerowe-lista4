@@ -3,11 +3,13 @@ package database
 import (
 	"errors"
 	"time"
+	"strconv"
 )
 
 const transactionsTableName = "transactions"
 
 type Transaction struct {
+	Id	string
 	TransactionTime       string
 	SenderAccountNumber   string
 	ReceiverAccountNumber string
@@ -25,21 +27,24 @@ func deleteTransactionsTable() {
 }
 
 func MakeTransaction(transaction Transaction) error {
-	transaction.TransactionTime = time.Now().Format(time.RFC3339)
-	err := IsTransactionCorrect(transaction)
-	if err != nil {
-		return err
-	}
-	executeStatement("INSERT INTO " + transactionsTableName + " (time, senderAccountNumber, receiverAccountNumber, amount, isApproved) VALUES (?,?,?,?,?)",
-		transaction.TransactionTime,
-		transaction.SenderAccountNumber,
-		transaction.ReceiverAccountNumber,
-		transaction.Amount,
-		transaction.IsApproved)
+	transaction.TransactionTime = time.Now().Format(time.Stamp)
+	executeStatement("INSERT INTO " + transactionsTableName + " (time, senderAccountNumber, receiverAccountNumber, amount, isApproved) VALUES (\"" +
+		transaction.TransactionTime + "\",\"" +
+		transaction.SenderAccountNumber + "\",\"" +
+		transaction.ReceiverAccountNumber + "\"," +
+		strconv.Itoa(transaction.Amount) + "," + "0)")
+
+	//executeStatement("INSERT INTO " + transactionsTableName + " (time, senderAccountNumber, receiverAccountNumber, amount, isApproved) VALUES (?,?,?,?,?)",
+	//	transaction.TransactionTime,
+	//	transaction.SenderAccountNumber,
+	//	transaction.ReceiverAccountNumber,
+	//	transaction.Amount,
+	//	transaction.IsApproved)
 	return nil
 }
 
 func IsTransactionCorrect(transaction Transaction) error {
+	return nil // removed checks
 	if !IsAccountNumberInDatabase(transaction.SenderAccountNumber) {
 		return errors.New("Sender Account Number Incorrect")
 	}
@@ -56,12 +61,11 @@ func GetUsersTransactions(user User) []Transaction {
 	rows := queryDatabase("SELECT * from " + transactionsTableName+
 		" WHERE senderAccountNumber LIKE " + user.Info.AccountNumber +
 			" OR receiverAccountNumber LIKE " + user.Info.AccountNumber)
-	var id int
 	var transaction Transaction
 	var result []Transaction
 	for rows.Next() {
 		rows.Scan(
-			&id,
+			&transaction.Id,
 			&transaction.TransactionTime,
 			&transaction.SenderAccountNumber,
 			&transaction.ReceiverAccountNumber,
@@ -70,4 +74,26 @@ func GetUsersTransactions(user User) []Transaction {
 		result = append(result, transaction)
 	}
 	return result
+}
+
+func GetAllUnapprovedTransactions() []Transaction {
+	rows := queryDatabase("SELECT * from " + transactionsTableName+
+		" WHERE isApproved = 0")
+	var transaction Transaction
+	var result []Transaction
+	for rows.Next() {
+		rows.Scan(
+			&transaction.Id,
+			&transaction.TransactionTime,
+			&transaction.SenderAccountNumber,
+			&transaction.ReceiverAccountNumber,
+			&transaction.Amount,
+			&transaction.IsApproved)
+		result = append(result, transaction)
+	}
+	return result
+}
+
+func ApproveTransaction(id string) {
+	executeStatement("UPDATE " + transactionsTableName + " SET isApproved = 1 WHERE id = " + id)
 }

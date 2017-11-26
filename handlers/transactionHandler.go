@@ -37,7 +37,7 @@ func processTransaction(responseWriter http.ResponseWriter, request *http.Reques
 	} else if err != nil {
 		displayWrongAmount(responseWriter)
 	} else {
-		transaction := database.Transaction{"", sender.Info.AccountNumber, receiverAccountNumber, amount, false}
+		transaction := database.Transaction{"", "", sender.Info.AccountNumber, receiverAccountNumber, amount, false}
 		err = database.IsTransactionCorrect(transaction)
 		if err != nil {
 			displayErrorMessage(responseWriter, err)

@@ -9,6 +9,10 @@ func displayNotLoggedError(responseWriter http.ResponseWriter) {
 	fmt.Fprintf(responseWriter, "Musisz być zalogowany aby przeglądać tę stronę \n")
 }
 
+func displayNotAdminError(responseWriter http.ResponseWriter) {
+	fmt.Fprintf(responseWriter, "Musisz być zalogowany jako admin aby przeglądać tę stronę \n")
+}
+
 func displayWrongReceiver(responseWriter http.ResponseWriter) {
 	fmt.Fprintf(responseWriter, "Nie znaleziono podanego adresata przelewu \n")
 }

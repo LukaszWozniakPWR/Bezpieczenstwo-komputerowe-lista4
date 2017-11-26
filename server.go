@@ -13,6 +13,8 @@ const LOGOUT_ENDPOINT = "/logout"
 const TRANSACTION_ENDPOINT = "/transaction"
 const TRANSACTIONS_ENDPOINT = "/transactions"
 const CONFIRMATION_ENDPOINT = "/confirmation"
+const APPROVES_ENDPOINT = "/approves"
+const APPROVE_ENDPOINT = "/approve"
 const PORT = ":9090"
 
 func main() {
@@ -24,6 +26,8 @@ func main() {
 	http.HandleFunc(TRANSACTION_ENDPOINT, handlers.TransactionHandler)
 	http.HandleFunc(TRANSACTIONS_ENDPOINT, handlers.TransactionsHandler)
 	http.HandleFunc(CONFIRMATION_ENDPOINT, handlers.ConfirmationHandler)
+	http.HandleFunc(APPROVES_ENDPOINT, handlers.ApprovesHandler)
+	http.HandleFunc(APPROVE_ENDPOINT, handlers.ApproveHandler)
 
 	error := http.ListenAndServe(PORT, nil)
 	if error != nil {

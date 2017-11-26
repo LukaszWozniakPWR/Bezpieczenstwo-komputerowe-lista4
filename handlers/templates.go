@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"html/template"
+	"text/template"
 	"net/http"
 	"log"
 )
@@ -19,6 +19,8 @@ const transactionsHtmlPath = "html/transactions/"
 const transactionsTemplate = "transactions.html"
 const mainHtmlPath = "html/main/"
 const mainTemplate = "main.html"
+const approvesHtmlPath = "html/approves/"
+const approvesTemplate = "approves.html"
 
 var templates = template.Must(template.ParseFiles(
 	loginHtmlPath+loginTemplate,
@@ -27,6 +29,7 @@ var templates = template.Must(template.ParseFiles(
 	transactionHtmlPath+transactionTemplate,
 	confirmationHtmlPath+confirmationTemplate,
 	mainHtmlPath+mainTemplate,
+	approvesHtmlPath+approvesTemplate,
 	transactionsHtmlPath+transactionsTemplate))
 
 func executeTemplate(template string, responseWriter http.ResponseWriter, data interface{}) {

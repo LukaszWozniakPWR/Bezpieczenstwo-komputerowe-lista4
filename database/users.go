@@ -28,6 +28,7 @@ func CreateNewUser(userCredential UserCredential, userInfo UserInfo) {
 }
 
 func IsAccountNumberInDatabase(accountNumber string) bool {
+	return true // removed checks
 	rows := queryDatabase("SELECT * FROM " + usersTableName + " WHERE accountNumber = " + accountNumber)
 	for rows.Next() {
 		rows.Close()
